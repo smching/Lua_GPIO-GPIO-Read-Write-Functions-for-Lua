@@ -8,5 +8,6 @@ Only four functions are available: pinMode, digitalWrite, digitalRead & delay:
 <li>digitalWrite(pin, value)</li>
 <li>digitalRead(pin)</li>
 <li>delay(second)</li>
+</ol>
 
-You can read more about this project on my website. http://ediy.com.my/index.php/blog/item/123-lua-gpio-gpio-read-write-functions-for-lua
+More info.: http://ediy.com.my/index.php/blog/item/123-lua-gpio-gpio-read-write-functions-for-lua
