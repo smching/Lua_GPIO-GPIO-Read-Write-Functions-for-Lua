@@ -89,7 +89,7 @@ end
 ------ example 1. Read value from pin20: digitalRead(20)
 function digitalRead(pin)
 	value = readFromFile('/sys/class/gpio/gpio'..pin..'/value')
-	return value
+	return tonumber(value)
 end
 
 
