@@ -2,12 +2,13 @@
 
 This is a very simple GPIO read/write functions for Lua running on linux-based embedded system, it is based on Arduino digital input/output syntax.
 
-Only four functions are available: pinMode, digitalWrite, digitalRead & delay:
+Only five functions are available: pinMode, digitalWrite, digitalRead, delay & pin_direction_status:
 <ol>
 <li>pinMode(pin, mode)</li>
 <li>digitalWrite(pin, value)</li>
 <li>digitalRead(pin)</li>
 <li>delay(second)</li>
+<li>pin_direction_status(pin)</li>
 </ol>
 
 More info.: http://ediy.com.my/index.php/blog/item/123-lua-gpio-gpio-read-write-functions-for-lua
