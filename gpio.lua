@@ -1,6 +1,7 @@
 #!/usr/bin/lua
 -- GPIO read/write functions for Lua
 -- By http://ediy.com.my
+-- Released date: 16 Oct 2015
 
 
 ----- Global variables
@@ -8,7 +9,14 @@ INPUT = 1
 OUTPUT = 0
 HIGH = 1
 LOW = 0
-GPIO = {20, 19, 18, 22, 21}
+GPIO = {20, 19, 18, 22, 21} --latch(12), data(14), clock(11), OE(13), reserved
+
+----- Check if a file exists
+function file_exists(filename)
+   local file=io.open(filename,"r")
+   if file~=nil then io.close(file) return true else return false end
+end
+
 
 ----- Overwites existing file or creates a new file
 function writeToFile (filename, data)
@@ -18,12 +26,17 @@ function writeToFile (filename, data)
 end
 
 
------ Reads data from file & returns the string
+----- Reads one byte data from file & returns the string
 function readFromFile (filename)
-	local file=io.open(filename, 'r')
-	local data = file:read(1)
-	file:close()	
-	return data
+	if file_exists(filename) then
+		local file=io.open(filename, 'r')
+		local data = file:read(1)
+		file:close()
+		return data	
+	else
+		return ""
+	end
+	
 end
 
 
@@ -45,6 +58,8 @@ end
 
 
 ----- Configures the specified pin to behave either as an input or an output
+----- example 1. Configure pin20 as output: pinMode(20, OUTPUT)
+----- example 2. Configure pin20 as input: pinMode(20, INPUT)
 function pinMode(pin, mode)
 	local gpio_path = '/sys/class/gpio/'
 	local gpio_direction = gpio_path..'gpio'..pin..'/direction'
@@ -63,13 +78,25 @@ end
 
 
 ----- Write a HIGH or a LOW value to a pin
+----- example 1. Write zero (LOW) to pin20: digitalWrite(20, LOW)
+----- example 2. Write one (HIGH) to pin20: digitalWrite(20, HIGH)
 function digitalWrite(pin, value)
 	writeToFile('/sys/class/gpio/gpio'..pin..'/value', value)
 end
 
 
 ------ Reads the value from a specified pin, either HIGH or LOW.
+------ example 1. Read value from pin20: digitalRead(20)
 function digitalRead(pin)
 	value = readFromFile('/sys/class/gpio/gpio'..pin..'/value')
+	return value
+end
+
+
+------ Reads the direction from a specified pin
+------ example 1. Check direction of pin20, return o, i or ""
+------ where o=output, i=input, ""=not declare
+function pin_direction_status(pin)
+	value = readFromFile('/sys/class/gpio/gpio'..pin..'/direction')
 	return value
 end
